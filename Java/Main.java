@@ -1,10 +1,29 @@
 package com.company;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.net.Inet4Address;
+import java.util.*;
 
 public class Main {
+
+    static ArrayList<Integer> generateData(int amount){
+        ArrayList<Integer> arr = new ArrayList<>();
+        Random generator = new Random();
+        for (int i = 0; i < amount; i++){
+            arr.add(generator.nextInt(1000));
+        }
+        return arr;
+    }
+
+    static void czyok (List<Integer> sorted, List<Integer> arr)
+    {
+        System.out.print("u");
+        for (int i = 0; i < sorted.size(); i++){
+            if (!sorted.get(i).equals(arr.get(i))){
+                System.out.println("guwno");
+                break;
+            }
+        }
+    }
 
     static void printArray(int arr[])
     {
@@ -14,7 +33,8 @@ public class Main {
         System.out.println();
     }
 
-    static void printList(List<Integer> lista){
+    static void printList(List<Integer> lista)
+    {
         for (int i : lista){
             System.out.print(i + " ");
         }
@@ -23,44 +43,50 @@ public class Main {
 
     public static void main(String[] args)
     {
-        int arr_oryginal[] = {1,2,3,4,64,25,12,22,11};
-        List lista = new LinkedList<Integer>();
+        ArrayList<Integer> arr = generateData(1000);
+        LinkedList<Integer> copy = new LinkedList<>(arr);
+        LinkedList<Integer> sorted = new LinkedList<>(arr);
+        Collections.sort(sorted);
 
-        lista.add(1);
-        lista.add(2);
-        lista.add(3);
-        lista.add(4);
-        lista.add(64);
-        lista.add(25);
-        lista.add(12);
-        lista.add(22);
-        lista.add(11);
-        List lista2 = new LinkedList(lista);
-        printList(Sort.bubbleSort(lista2));
-        printList(lista);
-        lista2 = new LinkedList(lista);
-        printList(Sort.insertionSort(lista2));
-        printList(lista);
-        lista2 = new LinkedList(lista);
-        printList(Sort.selectionSort(lista2));
-        printList(lista);
-        lista2 = new LinkedList(lista);
-        printList(Sort.quickSort(lista2));
-        printList(lista);
+        Sort.bubbleSort(copy);
+        czyok(sorted, copy);
+        copy = new LinkedList<>(arr);
 
+        Sort.insertionSort(copy);
+        czyok(sorted, copy);
+        copy = new LinkedList<>(arr);
 
-        int arr[] = arr_oryginal.clone();
-        printArray(Sort.bubbleSort(arr));
-        arr = arr_oryginal.clone();
-        printArray(arr);
-        printArray(Sort.insertionSort(arr));
-        arr = arr_oryginal.clone();
-        printArray(arr);
-        printArray(Sort.selectionSort(arr));
-        arr = arr_oryginal.clone();
-        printArray(arr);
-        printArray(Sort.quickSort(arr));
-        arr = arr_oryginal.clone();
-        printArray(arr);
+        Sort.selectionSort(copy);
+        czyok(sorted, copy);
+        copy = new LinkedList<>(arr);
+
+        Sort.quickSortRec(copy);
+        czyok(sorted, copy);
+        copy = new LinkedList<>(arr);
+
+        Sort.quickSortIter(copy);
+        czyok(sorted, copy);
+        copy = new LinkedList<>(arr);
+
+        Sort.topDownMergeSort(copy);
+        czyok(sorted, copy);
+        copy = new LinkedList<>(arr);
+
+        Sort.bottomUpMergeSort(copy);
+        czyok(sorted, copy);
+        copy = new LinkedList<>(arr);
+
+        Sort.shellSort(copy);
+        czyok(sorted, copy);
+        copy = new LinkedList<>(arr);
+
+        Sort.heapSort(copy);
+        czyok(sorted, copy);
+        copy = new LinkedList<>(arr);
+            // SORTOWANIE Z BIBLIOTEK
+//        Arrays.sort(arr); // DO TABLICY
+//        printArray(arr);
+//        Collections.sort(lista2); // DO LIST
+//        printList(lista2);
     }
 }

@@ -1,12 +1,11 @@
 package com.company;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Sort {
 
-    static List<Integer> bubbleSort(List<Integer> arr)
+    static void bubbleSort(List<Integer> arr)
     {
         int n = arr.size();
         int newn;
@@ -22,10 +21,9 @@ public class Sort {
             }
             n = newn;
         } while (n > 1);
-        return arr;
     }
 
-    static int[] bubbleSort(int arr[])
+    static void bubbleSort(int arr[])
     {
         int n = arr.length;
         int newn;
@@ -41,10 +39,9 @@ public class Sort {
             }
             n = newn;
         } while (n > 1);
-        return arr;
     }
 
-    static List<Integer> insertionSort(List<Integer> arr)
+    static void insertionSort(List<Integer> arr)
     {
         int i = 1, j;
         int n = arr.size();
@@ -59,10 +56,9 @@ public class Sort {
             arr.set(j + 1, x);
             i+=1;
         }
-        return arr;
     }
 
-    static int[] insertionSort(int arr[])
+    static void insertionSort(int arr[])
     {
         int i = 1, j;
         int n = arr.length;
@@ -77,10 +73,9 @@ public class Sort {
             arr[j+1] = x;
             i+=1;
         }
-        return arr;
     }
 
-    static List<Integer> selectionSort(List<Integer> arr)
+    static void selectionSort(List<Integer> arr)
     {
         int n = arr.size();
         for (int i = 0; i < n-1; i++)
@@ -99,10 +94,9 @@ public class Sort {
                 arr.set(i, temp);
             }
         }
-        return arr;
     }
 
-    static int[] selectionSort(int arr[])
+    static void selectionSort(int arr[])
     {
         int n = arr.length;
         for (int i = 0; i < n-1; i++)
@@ -121,74 +115,206 @@ public class Sort {
                 arr[i] = temp;
             }
         }
-        return arr;
     }
 
-    static List<Integer> quickSort(List<Integer> arr)
+    static void quickSortRec(List<Integer> arr)
     {
-        return qsSort(arr, 0, arr.size() - 1);
+        SortHelper.qsSort(arr, 0, arr.size() - 1);
     }
 
-    static List<Integer> qsSort(List<Integer> arr, int low, int high)
+    static void quickSortRec(int arr[])
     {
-        if (low < high){
-            int pivot = qsPartition(arr, low, high);
-            qsSort(arr, low, pivot - 1);
-            qsSort(arr, pivot + 1, high);
-        }
-        return arr;
+        SortHelper.qsSort(arr, 0, arr.length - 1);
     }
 
-    static int qsPartition (List<Integer> arr, int low, int high)
+    static void quickSortIter(List<Integer> arr)
     {
-        int pivot = arr.get(high);
-        int i = low - 1;
-        for (int j = low; j < high; j++){
-            if (arr.get(j) <= pivot){
-                i+=1;
-                int temp = arr.get(i);
-                arr.set(i, arr.get(j));
-                arr.set(j, temp);
+        int l = 0;
+        int h = arr.size() - 1;
+        // Create an auxiliary stack
+        int[] stack = new int[h - l + 1];
+
+        // initialize top of stack
+        int top = -1;
+
+        // push initial values of l and h to stack
+        stack[++top] = l;
+        stack[++top] = h;
+
+        // Keep popping from stack while is not empty
+        while (top >= 0) {
+            // Pop h and l
+            h = stack[top--];
+            l = stack[top--];
+
+            // Set pivot element at its correct position
+            // in sorted array
+            int p = SortHelper.qsPartition(arr, l, h);
+
+            // If there are elements on left side of pivot,
+            // then push left side to stack
+            if (p - 1 > l) {
+                stack[++top] = l;
+                stack[++top] = p - 1;
+            }
+
+            // If there are elements on right side of pivot,
+            // then push right side to stack
+            if (p + 1 < h) {
+                stack[++top] = p + 1;
+                stack[++top] = h;
             }
         }
-        i+=1;
-        int temp = arr.get(i);
-        arr.set(i, arr.get(high));
-        arr.set(high, temp);
-        return i;
     }
 
-    static int[] quickSort(int arr[])
+    static void quickSortIter(int arr[])
     {
-        return qsSort(arr, 0, arr.length - 1);
-    }
+        int l = 0;
+        int h = arr.length - 1;
+        // Create an auxiliary stack
+        int[] stack = new int[h - l + 1];
 
-    static int[] qsSort(int arr[], int low, int high)
-    {
-        if (low < high){
-            int pivot = qsPartition(arr, low, high);
-            qsSort(arr, low, pivot - 1);
-            qsSort(arr, pivot + 1, high);
+        // initialize top of stack
+        int top = -1;
+
+        // push initial values of l and h to stack
+        stack[++top] = l;
+        stack[++top] = h;
+
+        // Keep popping from stack while is not empty
+        while (top >= 0) {
+            // Pop h and l
+            h = stack[top--];
+            l = stack[top--];
+
+            // Set pivot element at its correct position
+            // in sorted array
+            int p = SortHelper.qsPartition(arr, l, h);
+
+            // If there are elements on left side of pivot,
+            // then push left side to stack
+            if (p - 1 > l) {
+                stack[++top] = l;
+                stack[++top] = p - 1;
+            }
+
+            // If there are elements on right side of pivot,
+            // then push right side to stack
+            if (p + 1 < h) {
+                stack[++top] = p + 1;
+                stack[++top] = h;
+            }
         }
-        return arr;
     }
 
-    static int qsPartition (int[] arr, int low, int high)
+    static void topDownMergeSort(int arr[])
     {
-        int pivot = arr[high];
-        int i = low - 1;
-        for (int j = low; j < high; j++){
-            if (arr[j] <= pivot){
-                i+=1;
+        int working_arr[] = arr.clone();
+        SortHelper.topDownSplitMerge(working_arr, 0, arr.length, arr);
+    }
+
+    static void topDownMergeSort(ArrayList<Integer> arr)
+    {
+        ArrayList<Integer> working_arr = (ArrayList<Integer>) arr.clone();
+        SortHelper.topDownSplitMerge(working_arr, 0, arr.size(), arr);
+    }
+
+    static void topDownMergeSort (LinkedList<Integer> arr){
+        Main.printList(SortHelper.topDownMergeSort(arr));
+        arr = new LinkedList<Integer>(SortHelper.topDownMergeSort(arr));
+    }
+
+
+    static void bottomUpMergeSort(int arr[])
+    {
+        int n = arr.length;
+        int curr_size;
+        int left_start;
+        //int working_arr[] = arr.clone();
+        for (curr_size = 1; curr_size < n; curr_size *= 2){
+            for (left_start = 0; left_start < n; left_start += 2*curr_size){
+                SortHelper.bottomUpMerge (arr, left_start, Math.min(left_start+curr_size - 1, n - 1), Math.min(left_start+2*curr_size - 1,n - 1));
+            }
+        }
+    }
+
+    static void bottomUpMergeSort(List<Integer> arr)
+    {
+        int n = arr.size();
+        int curr_size;
+        int left_start;
+        //int working_arr[] = arr.clone();
+        for (curr_size = 1; curr_size < n; curr_size *= 2){
+            for (left_start = 0; left_start < n; left_start += 2*curr_size){
+                SortHelper.bottomUpMerge (arr, left_start, Math.min(left_start+curr_size - 1, n - 1), Math.min(left_start+2*curr_size - 1,n - 1));
+            }
+        }
+    }
+
+    static void shellSort(int arr[]) {
+        int n = arr.length;
+        int gap = n / 2;
+        while (gap > 0)
+        {
+            for (int i = gap; i < n; i++) //in range(gap, n):
+            {
                 int temp = arr[i];
-                arr[i] = arr[j];
+                int j = i;
+                while (j >= gap && arr[ j - gap] >temp)
+                {
+                    arr[j] = arr[j - gap];
+                    j -= gap;
+                }
                 arr[j] = temp;
             }
+            gap /= 2;
         }
-        i+=1;
-        int temp = arr[i];
-        arr[i] = arr[high];
-        arr[high] = temp;
-        return i;
+    }
+
+    static void shellSort(List<Integer> arr) {
+        int n = arr.size();
+        int gap = n / 2;
+        while (gap > 0)
+        {
+            for (int i = gap; i < n; i++) //in range(gap, n):
+            {
+                int temp = arr.get(i);
+                int j = i;
+                while (j >= gap && arr.get(j - gap) >temp)
+                {
+                    arr.set(j, arr.get(j - gap));
+                    j -= gap;
+                }
+                arr.set(j, temp);
+            }
+            gap /= 2;
+        }
+    }
+
+    static void heapSort(int arr[])
+    {
+        int n = arr.length;
+        for (int i = n / 2 - 1; i >= 0; i--)
+            SortHelper.heapify(arr, n, i);
+        for (int i = n - 1; i > 0; i--){
+            int temp = arr[0];
+            arr[0] = arr[i];
+            arr[i] = temp;
+            SortHelper.heapify(arr, i, 0);
+        }
+    }
+
+    static void heapSort(List<Integer> arr)
+    {
+        int n = arr.size();
+        for (int i = n / 2 - 1; i >= 0; i--)
+            SortHelper.heapify(arr, n, i);
+        for (int i = n - 1; i > 0; i--){
+            int temp = arr.get(0);
+            arr.set(0, arr.get(i));
+            arr.set(i, temp);
+            SortHelper.heapify(arr, i, 0);
+        }
     }
 }
+
