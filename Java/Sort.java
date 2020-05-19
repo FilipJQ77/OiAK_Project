@@ -2,6 +2,7 @@ package com.company;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 public class Sort {
 
@@ -132,20 +133,17 @@ public class Sort {
         int l = 0;
         int h = arr.size() - 1;
         // Create an auxiliary stack
-        int[] stack = new int[h - l + 1];
-
-        // initialize top of stack
-        int top = -1;
+        Stack stack = new Stack();
 
         // push initial values of l and h to stack
-        stack[++top] = l;
-        stack[++top] = h;
+        stack.push(l);
+        stack.push(h);
 
         // Keep popping from stack while is not empty
-        while (top >= 0) {
+        while (!stack.empty()) {
             // Pop h and l
-            h = stack[top--];
-            l = stack[top--];
+            h = (int) stack.pop();
+            l = (int) stack.pop();
 
             // Set pivot element at its correct position
             // in sorted array
@@ -154,15 +152,15 @@ public class Sort {
             // If there are elements on left side of pivot,
             // then push left side to stack
             if (p - 1 > l) {
-                stack[++top] = l;
-                stack[++top] = p - 1;
+                stack.push(l);
+                stack.push(p-1);
             }
 
             // If there are elements on right side of pivot,
             // then push right side to stack
             if (p + 1 < h) {
-                stack[++top] = p + 1;
-                stack[++top] = h;
+                stack.push(p+1);
+                stack.push(h);
             }
         }
     }
@@ -172,20 +170,17 @@ public class Sort {
         int l = 0;
         int h = arr.length - 1;
         // Create an auxiliary stack
-        int[] stack = new int[h - l + 1];
-
-        // initialize top of stack
-        int top = -1;
+        Stack stack = new Stack();
 
         // push initial values of l and h to stack
-        stack[++top] = l;
-        stack[++top] = h;
+        stack.push(l);
+        stack.push(h);
 
         // Keep popping from stack while is not empty
-        while (top >= 0) {
+        while (!stack.empty()) {
             // Pop h and l
-            h = stack[top--];
-            l = stack[top--];
+            h = (int) stack.pop();
+            l = (int) stack.pop();
 
             // Set pivot element at its correct position
             // in sorted array
@@ -194,15 +189,15 @@ public class Sort {
             // If there are elements on left side of pivot,
             // then push left side to stack
             if (p - 1 > l) {
-                stack[++top] = l;
-                stack[++top] = p - 1;
+                stack.push(l);
+                stack.push(p-1);
             }
 
             // If there are elements on right side of pivot,
             // then push right side to stack
             if (p + 1 < h) {
-                stack[++top] = p + 1;
-                stack[++top] = h;
+                stack.push(p+1);
+                stack.push(h);
             }
         }
     }
@@ -215,15 +210,26 @@ public class Sort {
 
     static void topDownMergeSort(ArrayList<Integer> arr)
     {
-        ArrayList<Integer> working_arr = (ArrayList<Integer>) arr.clone();
+        ArrayList<Integer> working_arr = new ArrayList<>(arr);
         SortHelper.topDownSplitMerge(working_arr, 0, arr.size(), arr);
     }
 
-    static void topDownMergeSort (LinkedList<Integer> arr){
-        Main.printList(SortHelper.topDownMergeSort(arr));
-        arr = new LinkedList<Integer>(SortHelper.topDownMergeSort(arr));
+    static LinkedList<Integer> topDownMergeSort (LinkedList<Integer> arr)
+    {
+        if (arr.size() <= 1)
+            return arr;
+        LinkedList left = new LinkedList();
+        LinkedList right = new LinkedList();
+        for (int i = 0; i < arr.size(); i++){
+            if (i < arr.size()/2) {
+                left.add(arr.get(i));
+            } else
+                right.add(arr.get(i));
+        }
+        left = topDownMergeSort(left);
+        right = topDownMergeSort(right);
+        return SortHelper.merge(left,right);
     }
-
 
     static void bottomUpMergeSort(int arr[])
     {

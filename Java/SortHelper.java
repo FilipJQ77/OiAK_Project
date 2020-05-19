@@ -113,23 +113,6 @@ public class SortHelper {
         }
     }
 
-    static LinkedList<Integer> topDownMergeSort (LinkedList<Integer> arr)
-    {
-        if (arr.size() <= 1)
-            return arr;
-        LinkedList left = new LinkedList();
-        LinkedList right = new LinkedList();
-        for (int i = 0; i < arr.size(); i++){
-            if (i < arr.size()/2) {
-                left.add(arr.get(i));
-            } else
-                right.add(arr.get(i));
-        }
-        left = topDownMergeSort(left);
-        right = topDownMergeSort(right);
-        return SortHelper.merge(left,right);
-    }
-
     static LinkedList<Integer> merge (LinkedList <Integer> left, LinkedList <Integer> right)
     {
         LinkedList <Integer> result = new LinkedList<>();
