@@ -7,9 +7,13 @@
 #include <chrono>
 #include "Sort.h"
 #include <algorithm>
+
 using std::vector;
 
 using namespace std;
+
+
+static int repNr = 10;
 
 void printArray(vector<int> arr)
 {
@@ -52,76 +56,92 @@ void testTime(vector<int> arr)
     auto start = std::chrono::high_resolution_clock::now();
 
     auto finish = std::chrono::high_resolution_clock::now();
-    auto estimatedTime = std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
+    long estimatedTime0 = 0,
+        estimatedTime1 = 0,
+        estimatedTime2 = 0,
+        estimatedTime3 = 0,
+        estimatedTime4 = 0,
+        estimatedTime5 = 0,
+        estimatedTime6 = 0,
+        estimatedTime7 = 0,
+        estimatedTime8 = 0,
+        estimatedTime9 = 0;
 
-    start = std::chrono::high_resolution_clock::now();
-    Sort::bubbleSort(copy);
-    finish = std::chrono::high_resolution_clock::now();
-    estimatedTime = std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
-    cout << "Vector - bubbleSort = " << estimatedTime << endl;
+    for (int i = 0; i < repNr; i++) {
 
-    copy = arr;
-    start = std::chrono::high_resolution_clock::now();
-    Sort::insertionSort(copy);
-    finish = std::chrono::high_resolution_clock::now();
-    estimatedTime = std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
-    cout << "Vector - insertionSort = " << estimatedTime << endl;
+        start = std::chrono::high_resolution_clock::now();
+        Sort::bubbleSort(copy);
+        finish = std::chrono::high_resolution_clock::now();
+        estimatedTime0 += std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
 
-    copy = arr;
-    start = std::chrono::high_resolution_clock::now();
-    Sort::selectionSort(copy);
-    finish = std::chrono::high_resolution_clock::now();
-    estimatedTime = std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
-    cout << "Vector - selectionSort = " << estimatedTime << endl;
+        copy = arr;
+        start = std::chrono::high_resolution_clock::now();
+        Sort::insertionSort(copy);
+        finish = std::chrono::high_resolution_clock::now();
+        estimatedTime1 += std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
 
-    copy = arr;
-    start = std::chrono::high_resolution_clock::now();
-    Sort::quickSortRec(copy);
-    finish = std::chrono::high_resolution_clock::now();
-    estimatedTime = std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
-    cout << "Vector - quickSortRecursive = " << estimatedTime << endl;
+        copy = arr;
+        start = std::chrono::high_resolution_clock::now();
+        Sort::selectionSort(copy);
+        finish = std::chrono::high_resolution_clock::now();
+        estimatedTime2 += std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
 
-    copy = arr;
-    start = std::chrono::high_resolution_clock::now();
-    Sort::quickSortIter(copy);
-    finish = std::chrono::high_resolution_clock::now();
-    estimatedTime = std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
-    cout << "Vector - quickSortIterative = " << estimatedTime << endl;
+        copy = arr;
+        start = std::chrono::high_resolution_clock::now();
+        Sort::quickSortRec(copy);
+        finish = std::chrono::high_resolution_clock::now();
+        estimatedTime3 += std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
 
-    copy = arr;
-    start = std::chrono::high_resolution_clock::now();
-    Sort::topDownMergeSort(copy);
-    finish = std::chrono::high_resolution_clock::now();
-    estimatedTime = std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
-    cout << "Vector - topDownMergeSort = " << estimatedTime << endl;
+        copy = arr;
+        start = std::chrono::high_resolution_clock::now();
+        Sort::quickSortIter(copy);
+        finish = std::chrono::high_resolution_clock::now();
+        estimatedTime4 += std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
 
-    copy = arr;
-    start = std::chrono::high_resolution_clock::now();
-    Sort::bottomUpMergeSort(copy);
-    finish = std::chrono::high_resolution_clock::now();
-    estimatedTime = std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
-    cout << "Vector - bottomUpMergeSort = " << estimatedTime << endl;
+        copy = arr;
+        start = std::chrono::high_resolution_clock::now();
+        Sort::topDownMergeSort(copy);
+        finish = std::chrono::high_resolution_clock::now();
+        estimatedTime5 += std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
 
-    copy = arr;
-    start = std::chrono::high_resolution_clock::now();
-    Sort::shellSort(copy);
-    finish = std::chrono::high_resolution_clock::now();
-    estimatedTime = std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
-    cout << "Vector - shellSort = " << estimatedTime << endl;
+        copy = arr;
+        start = std::chrono::high_resolution_clock::now();
+        Sort::bottomUpMergeSort(copy);
+        finish = std::chrono::high_resolution_clock::now();
+        estimatedTime6 += std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
 
-    copy = arr;
-    start = std::chrono::high_resolution_clock::now();
-    Sort::heapSort(copy);
-    finish = std::chrono::high_resolution_clock::now();
-    estimatedTime = std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
-    cout << "Vector - heapSort = " << estimatedTime << endl;
+        copy = arr;
+        start = std::chrono::high_resolution_clock::now();
+        Sort::shellSort(copy);
+        finish = std::chrono::high_resolution_clock::now();
+        estimatedTime7 += std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
 
-    copy = arr;
-    start = std::chrono::high_resolution_clock::now();
-    sort(copy.begin(), copy.end());
-    finish = std::chrono::high_resolution_clock::now();
-    estimatedTime = std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
-    cout << "Vector - biblioteka = " << estimatedTime << endl;
+        copy = arr;
+        start = std::chrono::high_resolution_clock::now();
+        Sort::heapSort(copy);
+        finish = std::chrono::high_resolution_clock::now();
+        estimatedTime8 += std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
+
+        copy = arr;
+        start = std::chrono::high_resolution_clock::now();
+        sort(copy.begin(), copy.end());
+        finish = std::chrono::high_resolution_clock::now();
+        estimatedTime9 += std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
+    }
+    
+    ofstream myfile;
+    myfile.open("Vector.txt");
+    myfile << "Vector - bubbleSort = " << estimatedTime0/repNr << "us" << endl;
+    myfile << "Vector - insertionSort = " << estimatedTime1 / repNr << "us" << endl;
+    myfile << "Vector - selectionSort = " << estimatedTime2 / repNr << "us" << endl;
+    myfile << "Vector - quickSortRecursive = " << estimatedTime3 / repNr << "us" << endl;
+    myfile << "Vector - quickSortIterative = " << estimatedTime4 / repNr << "us" << endl;
+    myfile << "Vector - topDownMergeSort = " << estimatedTime5 / repNr << "us" << endl;
+    myfile << "Vector - bottomUpMergeSort = " << estimatedTime6 / repNr << "us" << endl;
+    myfile << "Vector - shellSort = " << estimatedTime7 / repNr << "us" << endl;
+    myfile << "Vector - heapSort = " << estimatedTime8 / repNr << "us" << endl;
+    myfile << "Vector - library = " << estimatedTime9 / repNr << "us" << endl;
+    myfile.close();
 }
 
 void copyArray(int* copy, int *oryginal, int n)
@@ -139,76 +159,223 @@ void testTime(int* arr, int n)
     auto start = std::chrono::high_resolution_clock::now();
 
     auto finish = std::chrono::high_resolution_clock::now();
-    auto estimatedTime = std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
+    long estimatedTime0 = 0,
+        estimatedTime1 = 0,
+        estimatedTime2 = 0,
+        estimatedTime3 = 0,
+        estimatedTime4 = 0,
+        estimatedTime5 = 0,
+        estimatedTime6 = 0,
+        estimatedTime7 = 0,
+        estimatedTime8 = 0,
+        estimatedTime9 = 0;
 
-    start = std::chrono::high_resolution_clock::now();
+    for (int i = 0; i < repNr; i++) {
+        start = std::chrono::high_resolution_clock::now();
+        Sort::bubbleSort(copy, n);
+        finish = std::chrono::high_resolution_clock::now();
+        estimatedTime0 += std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
+
+        copyArray(copy, arr, n);
+        start = std::chrono::high_resolution_clock::now();
+        Sort::insertionSort(copy, n);
+        finish = std::chrono::high_resolution_clock::now();
+        estimatedTime1 += std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
+
+        copyArray(copy, arr, n);
+        start = std::chrono::high_resolution_clock::now();
+        Sort::selectionSort(copy, n);
+        finish = std::chrono::high_resolution_clock::now();
+        estimatedTime2 += std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
+
+        copyArray(copy, arr, n);
+        start = std::chrono::high_resolution_clock::now();
+        Sort::quickSortRec(copy, n);
+        finish = std::chrono::high_resolution_clock::now();
+        estimatedTime3 += std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
+
+        copyArray(copy, arr, n);
+        start = std::chrono::high_resolution_clock::now();
+        Sort::quickSortIter(copy, n);
+        finish = std::chrono::high_resolution_clock::now();
+        estimatedTime4 += std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
+
+        copyArray(copy, arr, n);
+        start = std::chrono::high_resolution_clock::now();
+        Sort::topDownMergeSort(copy, n);
+        finish = std::chrono::high_resolution_clock::now();
+        estimatedTime5 += std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
+
+        copyArray(copy, arr, n);
+        start = std::chrono::high_resolution_clock::now();
+        Sort::bottomUpMergeSort(copy, n);
+        finish = std::chrono::high_resolution_clock::now();
+        estimatedTime6 += std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
+
+        copyArray(copy, arr, n);
+        start = std::chrono::high_resolution_clock::now();
+        Sort::shellSort(copy, n);
+        finish = std::chrono::high_resolution_clock::now();
+        estimatedTime7 += std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
+
+        copyArray(copy, arr, n);
+        start = std::chrono::high_resolution_clock::now();
+        Sort::heapSort(copy, n);
+        finish = std::chrono::high_resolution_clock::now();
+        estimatedTime8 += std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
+
+        copyArray(copy, arr, n);
+        start = std::chrono::high_resolution_clock::now();
+        sort(arr, arr + n);
+        finish = std::chrono::high_resolution_clock::now();
+        estimatedTime9 += std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
+    }
+
+    ofstream myfile;
+    myfile.open("CppArray.txt");
+    myfile << "Array - bubbleSort = " << estimatedTime0 / repNr << "us" << endl;
+    myfile << "Array - insertionSort = " << estimatedTime1 / repNr << "us" << endl;
+    myfile << "Array - selectionSort = " << estimatedTime2 / repNr << "us" << endl;
+    myfile << "Array - quickSortRecursive = " << estimatedTime3 / repNr << "us" << endl;
+    myfile << "Array - quickSortIterative = " << estimatedTime4 / repNr << "us" << endl;
+    myfile << "Array - topDownMergeSort = " << estimatedTime5 / repNr << "us" << endl;
+    myfile << "Array - bottomUpMergeSort = " << estimatedTime6 / repNr << "us" << endl;
+    myfile << "Array - shellSort = " << estimatedTime7 / repNr << "us" << endl;
+    myfile << "Array - heapSort = " << estimatedTime8 / repNr << "us" << endl;
+    myfile << "Array - library = " << estimatedTime9 / repNr << "us" << endl;
+    myfile.close();
+}
+
+void testRam(vector<int> arr){
+
+    vector<int> copy(arr);
+    
+    getchar();
+    copy = arr;
+    printf("Vector - bubbleSort\n");
+    getchar();
+    Sort::bubbleSort(copy);
+
+    getchar();
+    copy = arr;
+    printf("Vector - insertionSort\n");
+    getchar();
+    Sort::insertionSort(copy);
+
+    getchar();
+    copy = arr;
+    printf("Vector - selectionSort\n");
+    getchar();
+    Sort::selectionSort(copy);
+
+    getchar();
+    copy = arr;
+    printf("Vector - quickSortRec\n");
+    getchar();
+    Sort::quickSortRec(copy);
+
+    getchar();
+    copy = arr;
+    printf("Vector - quickSortIter\n");
+    getchar();
+    Sort::quickSortIter(copy);
+
+    getchar();
+    copy = arr;
+    printf("Vector - topDownMergeSort\n");
+    getchar();
+    Sort::topDownMergeSort(copy);
+    
+    getchar();
+    copy = arr;
+    printf("Vector - bottomUpMergeSort\n");
+    getchar();
+    Sort::bottomUpMergeSort(copy);
+
+    getchar();
+    copy = arr;
+    printf("Vector - shellSort\n");
+    getchar();
+    Sort::shellSort(copy);
+
+    getchar();
+    copy = arr;
+    printf("Vector - heapSort\n");
+    getchar();
+    Sort::heapSort(copy);
+
+    getchar();
+    copy = arr;
+    printf("Vector - library\n");
+    getchar();
+    sort(copy.begin(), copy.end());
+}
+
+void testRam(int* arr, int n)
+{
+    int* copy;
+    copy = new int[n];
+    copyArray(copy, arr, n);
+
+    getchar();
+    copyArray(copy, arr, n);
+    printf("Array - bubbleSort\n");
+    getchar();
     Sort::bubbleSort(copy, n);
-    finish = std::chrono::high_resolution_clock::now();
-    estimatedTime = std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
-    cout << "Array - bubbleSort = " << estimatedTime << endl;
 
+    getchar();
     copyArray(copy, arr, n);
-    start = std::chrono::high_resolution_clock::now();
+    printf("Array - insertionSort\n");
+    getchar();
     Sort::insertionSort(copy, n);
-    finish = std::chrono::high_resolution_clock::now();
-    estimatedTime = std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
-    cout << "Array - insertionSort = " << estimatedTime << endl;
 
+    getchar();
     copyArray(copy, arr, n);
-    start = std::chrono::high_resolution_clock::now();
+    printf("Array - selectionSort\n");
+    getchar();
     Sort::selectionSort(copy, n);
-    finish = std::chrono::high_resolution_clock::now();
-    estimatedTime = std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
-    cout << "Array - selectionSort = " << estimatedTime << endl;
 
+    getchar();
     copyArray(copy, arr, n);
-    start = std::chrono::high_resolution_clock::now();
+    printf("Array - quickSortRec\n");
+    getchar();
     Sort::quickSortRec(copy, n);
-    finish = std::chrono::high_resolution_clock::now();
-    estimatedTime = std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
-    cout << "Array - quickSortRecursive = " << estimatedTime << endl;
 
+    getchar();
     copyArray(copy, arr, n);
-    start = std::chrono::high_resolution_clock::now();
+    printf("Array - quickSortIter\n");
+    getchar();
     Sort::quickSortIter(copy, n);
-    finish = std::chrono::high_resolution_clock::now();
-    estimatedTime = std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
-    cout << "Array - quickSortIterative = " << estimatedTime << endl;
 
+    getchar();
     copyArray(copy, arr, n);
-    start = std::chrono::high_resolution_clock::now();
+    printf("Array - topDownMergeSort\n");
+    getchar();
     Sort::topDownMergeSort(copy, n);
-    finish = std::chrono::high_resolution_clock::now();
-    estimatedTime = std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
-    cout << "Array - topDownMergeSort = " << estimatedTime << endl;
 
+    getchar();
     copyArray(copy, arr, n);
-    start = std::chrono::high_resolution_clock::now();
+    printf("Array - bottomUpMergeSort\n");
+    getchar();
     Sort::bottomUpMergeSort(copy, n);
-    finish = std::chrono::high_resolution_clock::now();
-    estimatedTime = std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
-    cout << "Array - bottomUpMergeSort = " << estimatedTime << endl;
 
+    getchar();
     copyArray(copy, arr, n);
-    start = std::chrono::high_resolution_clock::now();
+    printf("Array - shellSort\n");
+    getchar();
     Sort::shellSort(copy, n);
-    finish = std::chrono::high_resolution_clock::now();
-    estimatedTime = std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
-    cout << "Array - shellSort = " << estimatedTime << endl;
 
+    getchar();
     copyArray(copy, arr, n);
-    start = std::chrono::high_resolution_clock::now();
+    printf("Array - heapSort\n");
+    getchar();
     Sort::heapSort(copy, n);
-    finish = std::chrono::high_resolution_clock::now();
-    estimatedTime = std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
-    cout << "Array - heapSort = " << estimatedTime << endl;
 
+    getchar();
     copyArray(copy, arr, n);
-    start = std::chrono::high_resolution_clock::now();
+    printf("Array - library\n");
+    getchar();
     sort(arr, arr + n);
-    finish = std::chrono::high_resolution_clock::now();
-    estimatedTime = std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
-    cout << "Array - biblioteka = " << estimatedTime << endl;
 }
 
 vector<int> read(int n) {
@@ -236,6 +403,7 @@ int main()
 
     testTime(arr1);
     testTime(arr, n);
+    testRam(arr1);
 
     /* SORTOWANIE WBUDOWANE */
     /*sort(arr1.begin(), arr1.end());  // SORTOWANIE WEKTORA
