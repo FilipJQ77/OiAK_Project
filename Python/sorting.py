@@ -1,5 +1,6 @@
 import random
 import sorting_helper
+from collections import deque
 
 
 def generate_data(amount: int, mini: int, maxi: int) -> list:
@@ -10,7 +11,7 @@ def generate_data(amount: int, mini: int, maxi: int) -> list:
 
 
 def check_sorting_method(func, arr: list) -> bool:
-    arr = func(arr)
+    func(arr)
     list_size = len(arr) - 1
     for i in range(list_size):
         if arr[i] > arr[i + 1]:
@@ -19,7 +20,7 @@ def check_sorting_method(func, arr: list) -> bool:
 
 
 # https://en.wikipedia.org/wiki/Bubble_sort#Optimizing_bubble_sort
-def bubble_sort(arr: list) -> list:
+def bubble_sort(arr: list):
     n = len(arr)
     while n > 1:
         new_n = 0
@@ -28,14 +29,25 @@ def bubble_sort(arr: list) -> list:
                 arr[i - 1], arr[i] = arr[i], arr[i - 1]
                 new_n = i
         n = new_n
-    return arr
+
+
+# https://en.wikipedia.org/wiki/Heapsort#Pseudocode
+def heap_sort(arr: list):
+    len_arr = len(arr)
+    for i in range((len_arr - 2) // 2, -1, -1):
+        j = i
+        while j != -1:
+            j = sorting_helper.heap_sort_heapify_down(arr, j, len_arr)
+    for i in range(len_arr - 1, 0, -1):
+        arr[0], arr[i] = arr[i], arr[0]
+        j = 0
+        while j != -1:
+            j = sorting_helper.heap_sort_heapify_down(arr, j, i)
 
 
 # https://en.wikipedia.org/wiki/Insertion_sort#Algorithm
-def insertion_sort(arr: list) -> list:
-    i = 1
-    len_arr = len(arr)
-    while i < len_arr:
+def insertion_sort(arr: list):
+    for i in range(1, len(arr)):
         x = arr[i]
         j = i - 1
         while j >= 0 and arr[j] > x:
@@ -43,12 +55,11 @@ def insertion_sort(arr: list) -> list:
             j -= 1
         arr[j + 1] = x
         i += 1
-    return arr
 
 
 # https://en.wikipedia.org/wiki/Merge_sort#Top-down_implementation
 # https://www.geeksforgeeks.org/merge-sort/
-def merge_sort_recursive(arr: list) -> list:
+def merge_sort_recursive(arr: list):
     len_arr = len(arr)
     if len_arr > 1:
         middle = len_arr // 2
@@ -59,77 +70,59 @@ def merge_sort_recursive(arr: list) -> list:
         len_left = len(left_arr)
         len_right = len(right_arr)
         left_i = right_i = arr_i = 0
-        while left_i < len_left and right_i < len_right:
-            if left_arr[left_i] < right_arr[right_i]:
-                arr[arr_i] = left_arr[left_i]
-                left_i += 1
-            else:
-                arr[arr_i] = right_arr[right_i]
-                right_i += 1
-            arr_i += 1
-        while left_i < len_left:
-            arr[arr_i] = left_arr[left_i]
-            left_i += 1
-            arr_i += 1
-        while right_i < len_right:
-            arr[arr_i] = right_arr[right_i]
-            right_i += 1
-            arr_i += 1
-    return arr
+        sorting_helper.merge_sort_merge(arr, left_arr, right_arr, arr_i, left_i, right_i, len_left, len_right)
 
 
 # https://en.wikipedia.org/wiki/Merge_sort#Bottom-up_implementation
-def merge_sort_iterative(arr: list) -> list:
-    len_arr = len(arr)
+# https://www.geeksforgeeks.org/iterative-merge-sort/
+def merge_sort_iterative(arr: list):
+    len_arr = len(arr) - 1
     width = 1
     while width < len_arr:
-        i = 0
-        while i < len_arr:
-            left_arr = arr[i:i + width - 1]
-            right_arr = arr[i + width:i + 2 * width - 1]
-            # todo
-            i += width * 2
+        left = 0
+        while left < len_arr:
+            mid = left + width - 1
+            right = 2 * width + left - 1 if 2 * width < len_arr else len_arr
+            len_left = width
+            len_right = right - mid
+            left_arr = [0] * len_left
+            right_arr = [0] * len_right
+            for i in range(0, len_left):
+                left_arr[i] = arr[left + i]
+            for i in range(0, len_right):
+                right_arr[i] = arr[mid + i + 1]
+            left_i, right_i, arr_i = 0, 0, left
+            sorting_helper.merge_sort_merge(arr, left_arr, right_arr, arr_i, left_i, right_i, len_left, len_right)
+            left += width * 2
+        left += width * 2
         width *= 2
-    return arr
 
 
-# Cormen 7.1
-def quick_sort_recursive(arr: list) -> list:
-    return sorting_helper.qs_sort_recursive(arr, 0, len(arr) - 1)
+# Cormen - Introduction to Algorithms - 7.1
+def quick_sort_recursive(arr: list):
+    sorting_helper.quick_sort_recursive(arr, 0, len(arr) - 1)
 
 
 # https://www.geeksforgeeks.org/iterative-quick-sort/
-def quick_sort_iterative(arr: list) -> list:
+def quick_sort_iterative(arr: list):
     low = 0
     high = len(arr) - 1
-    size = high + 1
-    stack = [0] * size
-    top = 0
-    stack[top] = low
-    top += 1
-    stack[top] = high
-    while top >= 0:
-        high = stack[top]
-        top -= 1
-        low = stack[top]
-        top -= 1
-        pivot = sorting_helper.qs_partition(arr, low, high) - 1
+    stack = deque([low, high])
+    while stack:
+        high = stack.pop()
+        low = stack.pop()
+        pivot = sorting_helper.quick_sort_partition(arr, low, high) - 1
         if pivot > low:
-            top += 1
-            stack[top] = low
-            top += 1
-            stack[top] = pivot
+            stack.append(low)
+            stack.append(pivot)
         pivot += 2
         if pivot < high:
-            top += 1
-            stack[top] = pivot
-            top += 1
-            stack[top] = high
-    return arr
+            stack.append(pivot)
+            stack.append(high)
 
 
 # https://en.wikipedia.org/wiki/Selection_sort#Implementations
-def selection_sort(arr: list) -> list:
+def selection_sort(arr: list):
     len_arr = len(arr)
     for i in range(len_arr):
         min_index = i
@@ -138,11 +131,10 @@ def selection_sort(arr: list) -> list:
                 min_index = j
         if i != min_index:
             arr[i], arr[min_index] = arr[min_index], arr[i]
-    return arr
 
 
 # https://en.wikipedia.org/wiki/Shellsort#Pseudocode
-def shell_sort(arr: list) -> list:
+def shell_sort(arr: list):
     len_arr = len(arr)
     gap = len_arr // 2
     while gap > 0:
@@ -154,13 +146,12 @@ def shell_sort(arr: list) -> list:
                 j -= gap
             arr[j] = temp
         gap //= 2
-    return arr
 
 
-for aaa in range(1000):
-    lista = generate_data(1000, 0, 10000)
-    if not check_sorting_method(shell_sort, lista):
-        print("Ała kurwa rzeczywiście")
+for aaa in range(100):
+    lista = generate_data(100, 0, 10000)
+    if not check_sorting_method(insertion_sort, lista):
+        print("Not yeet")
 
 # time_bubble = []
 # time_insertion = []
