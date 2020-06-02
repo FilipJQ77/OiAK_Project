@@ -393,27 +393,18 @@ vector<int> read(int n) {
 
 int main()
 {
-    vector<int> arr1 = read(10);
-    int n = arr1.size();
+    vector<int> vec = read(10);
+    testTime(vec);
+    testRam(vec);
+
+    int n = vec.size();
     int* arr;
     arr = new int[n];
     for (int i = 0; i < n; i++) {
-        arr[i] = arr1[i];
+        arr[i] = vec[i];
     }
+    delete &vec;
 
-    testTime(arr1);
     testTime(arr, n);
-    testRam(arr1);
-
-    /* SORTOWANIE WBUDOWANE */
-    /*sort(arr1.begin(), arr1.end());  // SORTOWANIE WEKTORA
-    printArray(arr1);
-    sort(arr, arr + n);              // SORTOWANIE TABLICY
-    printArray(arr, n);
-    
-    printArray(Sort::insertionSort(arr));
-    printArray(Sort::selectionSort(arr));
-    printArray(Sort::quickSort(arr));
-    printArray(arr);
-    */
+    testRam(arr, n);
 }
