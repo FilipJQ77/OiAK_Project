@@ -131,16 +131,15 @@ void testTime(vector<int> arr)
     
     ofstream myfile;
     myfile.open("Vector.txt");
-    myfile << "Vector - bubbleSort = " << estimatedTime0/repNr << "us" << endl;
-    myfile << "Vector - insertionSort = " << estimatedTime1 / repNr << "us" << endl;
-    myfile << "Vector - selectionSort = " << estimatedTime2 / repNr << "us" << endl;
-    myfile << "Vector - quickSortRecursive = " << estimatedTime3 / repNr << "us" << endl;
-    myfile << "Vector - quickSortIterative = " << estimatedTime4 / repNr << "us" << endl;
-    myfile << "Vector - topDownMergeSort = " << estimatedTime5 / repNr << "us" << endl;
-    myfile << "Vector - bottomUpMergeSort = " << estimatedTime6 / repNr << "us" << endl;
-    myfile << "Vector - shellSort = " << estimatedTime7 / repNr << "us" << endl;
-    myfile << "Vector - heapSort = " << estimatedTime8 / repNr << "us" << endl;
-    myfile << "Vector - library = " << estimatedTime9 / repNr << "us" << endl;
+    myfile << estimatedTime0 / repNr << endl;
+    myfile << estimatedTime1 / repNr << endl;
+    myfile << estimatedTime3 / repNr << endl;
+    myfile << estimatedTime4 / repNr << endl;
+    myfile << estimatedTime5 / repNr << endl;
+    myfile << estimatedTime6 / repNr << endl;
+    myfile << estimatedTime7 / repNr << endl;
+    myfile << estimatedTime8 / repNr << endl;
+    myfile << estimatedTime9 / repNr << endl;
     myfile.close();
 }
 
@@ -233,16 +232,15 @@ void testTime(int* arr, int n)
 
     ofstream myfile;
     myfile.open("CppArray.txt");
-    myfile << "Array - bubbleSort = " << estimatedTime0 / repNr << "us" << endl;
-    myfile << "Array - insertionSort = " << estimatedTime1 / repNr << "us" << endl;
-    myfile << "Array - selectionSort = " << estimatedTime2 / repNr << "us" << endl;
-    myfile << "Array - quickSortRecursive = " << estimatedTime3 / repNr << "us" << endl;
-    myfile << "Array - quickSortIterative = " << estimatedTime4 / repNr << "us" << endl;
-    myfile << "Array - topDownMergeSort = " << estimatedTime5 / repNr << "us" << endl;
-    myfile << "Array - bottomUpMergeSort = " << estimatedTime6 / repNr << "us" << endl;
-    myfile << "Array - shellSort = " << estimatedTime7 / repNr << "us" << endl;
-    myfile << "Array - heapSort = " << estimatedTime8 / repNr << "us" << endl;
-    myfile << "Array - library = " << estimatedTime9 / repNr << "us" << endl;
+    myfile << estimatedTime0 / repNr << endl;
+    myfile << estimatedTime1 / repNr << endl;
+    myfile << estimatedTime3 / repNr << endl;
+    myfile << estimatedTime4 / repNr << endl;
+    myfile << estimatedTime5 / repNr << endl;
+    myfile << estimatedTime6 / repNr << endl;
+    myfile << estimatedTime7 / repNr << endl;
+    myfile << estimatedTime8 / repNr << endl;
+    myfile << estimatedTime9 / repNr << endl;
     myfile.close();
 }
 
@@ -394,7 +392,7 @@ vector<int> read(int n) {
 int main()
 {
     vector<int> vec = read(10);
-    testTime(vec);
+    //testTime(vec);
     testRam(vec);
 
     int n = vec.size();
@@ -403,7 +401,8 @@ int main()
     for (int i = 0; i < n; i++) {
         arr[i] = vec[i];
     }
-    delete &vec;
+    
+   // delete &vec;
 
     testTime(arr, n);
     testRam(arr, n);
