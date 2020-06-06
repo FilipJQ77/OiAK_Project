@@ -32,7 +32,7 @@ int SortHelper::qsPartition(vector<int>& arr, int low, int high)
 
 static void topDownMerge(vector<int>& arr, int iBegin, int iMiddle, int iEnd, vector<int>& working_arr)
 {
-    
+
     int i = iBegin;
     int j = iMiddle;
     for (int k = iBegin; k < iEnd; k++) {
@@ -219,6 +219,8 @@ void SortHelper::bottomUpMerge(int* arr, int l, int m, int r)
         j++;
         k++;
     }
+    delete[] L;
+    delete[] R;
 }
 
 void SortHelper::heapify(int* arr, int n, int i)

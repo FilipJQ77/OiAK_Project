@@ -4,7 +4,7 @@
 #include <stack>
 using namespace std;
 
-void Sort::bubbleSort(vector<int> &arr)
+void Sort::bubbleSort(vector<int>& arr)
 {
     int n = arr.size();
     int newn;
@@ -22,7 +22,7 @@ void Sort::bubbleSort(vector<int> &arr)
     } while (n > 1);
 }
 
-void Sort::insertionSort(vector<int> &arr)
+void Sort::insertionSort(vector<int>& arr)
 {
     int i = 1, j;
     int n = arr.size();
@@ -39,19 +39,16 @@ void Sort::insertionSort(vector<int> &arr)
     }
 }
 
-void Sort::selectionSort(vector<int> &arr)
+void Sort::selectionSort(vector<int>& arr)
 {
     int n = arr.size();
     for (int i = 0; i < n - 1; i++)
     {
-        // Find the minimum element in unsorted array
         int min_idx = i;
         for (int j = i + 1; j < n; j++)
             if (arr[j] < arr[min_idx])
                 min_idx = j;
 
-        // Swap the found minimum element with the first
-        // element
         if (min_idx != i) {
             int temp = arr[min_idx];
             arr[min_idx] = arr[i];
@@ -60,7 +57,7 @@ void Sort::selectionSort(vector<int> &arr)
     }
 }
 
-void Sort::quickSortRec(vector<int> &arr)
+void Sort::quickSortRec(vector<int>& arr)
 {
     SortHelper::qsSort(arr, 0, arr.size() - 1);
 }
@@ -72,31 +69,20 @@ void Sort::quickSortIter(vector<int>& arr)
 
     stack <int> stack;
 
-    // push initial values of l and h to stack
     stack.push(l);
     stack.push(h);
 
-    // Keep popping from stack while is not empty
     while (!stack.empty()) {
-        // Pop h and l
         h = stack.top();
         stack.pop();
         l = stack.top();
         stack.pop();
 
-        // Set pivot element at its correct position
-        // in sorted array
         int p = SortHelper::qsPartition(arr, l, h);
-
-        // If there are elements on left side of pivot,
-        // then push left side to stack
         if (p - 1 > l) {
             stack.push(l);
             stack.push(p - 1);
         }
-
-        // If there are elements on right side of pivot,
-        // then push right side to stack
         if (p + 1 < h) {
             stack.push(p + 1);
             stack.push(h);
@@ -115,7 +101,6 @@ void Sort::bottomUpMergeSort(vector<int>& arr)
     int n = arr.size();
     int curr_size;
     int left_start;
-    //int working_arr[] = arr.clone();
     for (curr_size = 1; curr_size < n; curr_size *= 2) {
         for (left_start = 0; left_start < n; left_start += 2 * curr_size) {
             SortHelper::bottomUpMerge(arr, left_start, min(left_start + curr_size - 1, n - 1), min(left_start + 2 * curr_size - 1, n - 1));
@@ -129,7 +114,7 @@ void Sort::shellSort(vector<int>& arr)
     int gap = n / 2;
     while (gap > 0)
     {
-        for (int i = gap; i < n; i++) //in range(gap, n):
+        for (int i = gap; i < n; i++)
         {
             int temp = arr[i];
             int j = i;
@@ -195,14 +180,11 @@ void Sort::selectionSort(int* arr, int n)
 {
     for (int i = 0; i < n - 1; i++)
     {
-        // Find the minimum element in unsorted array
         int min_idx = i;
         for (int j = i + 1; j < n; j++)
             if (arr[j] < arr[min_idx])
                 min_idx = j;
 
-        // Swap the found minimum element with the first
-        // element
         if (min_idx != i) {
             int temp = arr[min_idx];
             arr[min_idx] = arr[i];
@@ -222,32 +204,22 @@ void Sort::quickSortIter(int* arr, int n)
     int h = n - 1;
 
     stack <int> stack;
-
-    // push initial values of l and h to stack
     stack.push(l);
     stack.push(h);
 
-    // Keep popping from stack while is not empty
     while (!stack.empty()) {
-        // Pop h and l
         h = stack.top();
         stack.pop();
         l = stack.top();
         stack.pop();
 
-        // Set pivot element at its correct position
-        // in sorted array
         int p = SortHelper::qsPartition(arr, l, h);
 
-        // If there are elements on left side of pivot,
-        // then push left side to stack
         if (p - 1 > l) {
             stack.push(l);
             stack.push(p - 1);
         }
 
-        // If there are elements on right side of pivot,
-        // then push right side to stack
         if (p + 1 < h) {
             stack.push(p + 1);
             stack.push(h);
@@ -257,7 +229,7 @@ void Sort::quickSortIter(int* arr, int n)
 
 void Sort::topDownMergeSort(int* arr, int n)
 {
-    int *working_arr;
+    int* working_arr;
     working_arr = new int[n];
     for (int i = 0; i < n; i++) {
         working_arr[i] = arr[i];
@@ -269,7 +241,6 @@ void Sort::bottomUpMergeSort(int* arr, int n)
 {
     int curr_size;
     int left_start;
-    //int working_arr[] = arr.clone();
     for (curr_size = 1; curr_size < n; curr_size *= 2) {
         for (left_start = 0; left_start < n; left_start += 2 * curr_size) {
             SortHelper::bottomUpMerge(arr, left_start, min(left_start + curr_size - 1, n - 1), min(left_start + 2 * curr_size - 1, n - 1));
@@ -282,7 +253,7 @@ void Sort::shellSort(int* arr, int n)
     int gap = n / 2;
     while (gap > 0)
     {
-        for (int i = gap; i < n; i++) //in range(gap, n):
+        for (int i = gap; i < n; i++)
         {
             int temp = arr[i];
             int j = i;
@@ -308,6 +279,3 @@ void Sort::heapSort(int* arr, int n)
         SortHelper::heapify(arr, i, 0);
     }
 }
-
-
-

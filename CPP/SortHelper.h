@@ -3,7 +3,7 @@
 using std::vector;
 class SortHelper
 {
-	public:
+public:
 	static vector<int> qsSort(vector<int>& arr, int low, int high);
 	static int qsPartition(vector<int>& arr, int low, int high);
 	static void topDownSplitMerge(vector<int>& working_arr, int iBegin, int iEnd, vector<int>& arr);
@@ -16,4 +16,3 @@ class SortHelper
 	static void bottomUpMerge(int* arr, int l, int m, int r);
 	static void heapify(int* arr, int n, int i);
 };
-
