@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace ProgramNamespace
@@ -31,25 +32,21 @@ namespace ProgramNamespace
         }
 
         /// <summary>
-        /// 
+        /// https://en.wikipedia.org/wiki/Heapsort#Pseudocode
         /// </summary>
         public static void HeapSort(IList<int> arr)
         {
             int arrCount = arr.Count;
             for (int i = (arrCount - 2) / 2; i >= 0; --i)
             {
-                int j = i;
-                while (j != -1)
-                    j = SortingHelper.HeapSortHeapifyDown(arr, j, arrCount);
+                SortingHelper.HeapSortHeapifyDown(arr, i, arrCount);
             }
             for (int i = arrCount - 1; i > 0; --i)
             {
                 int swap = arr[0];
                 arr[0] = arr[i];
                 arr[i] = swap;
-                int j = 0;
-                while (j != -1)
-                    j = SortingHelper.HeapSortHeapifyDown(arr, j, i);
+                SortingHelper.HeapSortHeapifyDown(arr, 0, i);
             }
         }
 
@@ -73,6 +70,37 @@ namespace ProgramNamespace
                 ++i;
             }
         }
+
+        /// <summary>
+        /// https://en.wikipedia.org/wiki/Merge_sort#Bottom-up_implementation
+        /// https://www.geeksforgeeks.org/iterative-merge-sort/
+        /// </summary>
+        public static void MergeSortIterative(IList<int> arr)
+        {
+            int arrCount = arr.Count;
+            for (int width = 1; width < arrCount; width *= 2)
+            {
+                for (int left = 0; left < arrCount; left += width * 2)
+                {
+                    int middle = Math.Min(left + width - 1, arrCount - 1);
+                    int right = Math.Min(left + 2 * width - 1, arrCount - 1);
+                    int leftCount = middle - left + 1;
+                    int rightCount = right - middle;
+                    int[] leftArr = new int[leftCount];
+                    int[] rightArr = new int[rightCount];
+                    for (int i = 0; i < leftCount; ++i)
+                    {
+                        leftArr[i] = arr[left + 1];
+                    }
+                    for (int i = 0; i < rightCount; ++i)
+                    {
+                        rightArr[i] = arr[middle + i + 1];
+                    }
+                    SortingHelper.MergeSortMerge(arr, leftArr, rightArr, left, leftCount, rightCount);
+                }
+            }
+        }
+
         /// <summary>
         /// https://en.wikipedia.org/wiki/Merge_sort#Top-down_implementation
         /// https://www.geeksforgeeks.org/merge-sort/
@@ -83,7 +111,20 @@ namespace ProgramNamespace
             if (arrCount > 1)
             {
                 int middle = arrCount / 2;
-
+                int[] leftArray = new int[middle];
+                int i = 0;
+                for (; i < middle; ++i)
+                {
+                    leftArray[i] = arr[i];
+                }
+                MergeSortRecursive(leftArray);
+                int[] rightArray = new int[arrCount - middle];
+                for (int j = 0; j < arrCount - middle; ++j)
+                {
+                    rightArray[j] = arr[i];
+                }
+                MergeSortRecursive(rightArray);
+                SortingHelper.MergeSortMerge(arr, leftArray, rightArray, 0, leftArray.Length, rightArray.Length);
             }
         }
 
@@ -101,13 +142,15 @@ namespace ProgramNamespace
         public static void QuickSortIterative(IList<int> arr)
         {
             int low = 0;
-            int high = arr.Count;
+            int high = arr.Count - 1;
             Stack<int> stack = new Stack<int>();
+            stack.Push(low);
+            stack.Push(high);
             while (stack.Count > 0)
             {
                 high = stack.Pop();
                 low = stack.Pop();
-                int pivot = SortingHelper.QuickSortPartition(arr, low, high)-1;
+                int pivot = SortingHelper.QuickSortPartition(arr, low, high) - 1;
                 if (pivot > low)
                 {
                     stack.Push(low);
@@ -120,6 +163,7 @@ namespace ProgramNamespace
                     stack.Push(high);
                 }
             }
+
         }
 
         /// <summary>
@@ -145,6 +189,9 @@ namespace ProgramNamespace
             }
         }
 
+        /// <summary>
+        /// https://en.wikipedia.org/wiki/Shellsort#Pseudocode
+        /// </summary>
         public static void ShellSort(IList<int> arr)
         {
             int arrCount = arr.Count;

@@ -6,7 +6,7 @@ namespace ProgramNamespace
 {
     class SortingHelper
     {
-        public static int HeapSortHeapifyDown(IList<int> arr, int parentIndex, int arrCount)
+        public static void HeapSortHeapifyDown(IList<int> arr, int parentIndex, int arrCount)
         {
             int largestIndex = parentIndex;
             int leftIndex = 2 * parentIndex + 1;
@@ -20,10 +20,40 @@ namespace ProgramNamespace
                 int swap = arr[parentIndex];
                 arr[parentIndex] = arr[largestIndex];
                 arr[largestIndex] = swap;
-                return largestIndex;
+                HeapSortHeapifyDown(arr, largestIndex, arrCount);
             }
-            else
-                return -1;
+        }
+
+        public static void MergeSortMerge(IList<int> arr, int[] leftArr, int[] rightArr, int arrIndex, int leftCount, int rightCount)
+        {
+            int leftIndex = 0;
+            int rightIndex = 0;
+            while (leftIndex < leftCount && rightIndex < rightCount)
+            {
+                if (leftArr[leftIndex] < rightArr[rightIndex])
+                {
+                    arr[arrIndex] = leftArr[leftIndex];
+                    ++leftIndex;
+                }
+                else
+                {
+                    arr[arrIndex] = rightArr[rightIndex];
+                    ++rightIndex;
+                }
+                ++arrIndex;
+            }
+            while (leftIndex < leftCount)
+            {
+                arr[arrIndex] = leftArr[leftIndex];
+                ++leftIndex;
+                ++arrIndex;
+            }
+            while (rightIndex < rightCount)
+            {
+                arr[arrIndex] = rightArr[rightIndex];
+                ++rightIndex;
+                ++arrIndex;
+            }
         }
 
         public static int QuickSortPartition(IList<int> arr, int low, int high)
