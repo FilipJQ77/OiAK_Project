@@ -14,7 +14,8 @@ def heap_sort_heapify_down(arr: list, parent_index: int, len_arr: int) -> int:
         return -1
 
 
-def merge_sort_merge(arr, left_arr, right_arr, arr_i, left_i, right_i, len_left, len_right):
+def merge_sort_merge(arr, left_arr, right_arr, arr_i, len_left, len_right):
+    left_i, right_i = 0, 0
     while left_i < len_left and right_i < len_right:
         if left_arr[left_i] < right_arr[right_i]:
             arr[arr_i] = left_arr[left_i]
